@@ -1,3 +1,4 @@
+# TODO - Depending on Orchestrator used, Meltano.yml may become redundant. Delete if not necessary.
 version: 1
 send_anonymous_usage_stats: true
 project_id: "target-eventbridge"
@@ -16,10 +17,3 @@ plugins:
     - record-flattening
     config:
       start_date: '2010-01-01T00:00:00Z'
-    settings:
-    # TODO: To configure using Meltano, declare settings and their types here:
-    - name: username
-    - name: password
-      kind: password
-    - name: start_date
-      value: '2010-01-01T00:00:00Z'
