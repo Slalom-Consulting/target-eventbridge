@@ -1,7 +1,8 @@
 import os
 
 AWS_SERVICE_NAME = "operations-travel"
-AWS_REGION = "us-east-1"
+Region = os.environ.get("AWS_REGION")
+AWS_REGION = f'{Region}'
 
 # Client config used by both Eventbridge.
 AWS_CLIENT_CONFIG = { "region": AWS_REGION }
@@ -9,8 +10,6 @@ AWS_CLIENT_CONFIG = { "region": AWS_REGION }
 # Event Bus name used by the gapiMockData.request.ts file in order to route the payload to the expected location
 AWS_BUS_NAME = "operationsEventBus"
 Environment = os.environ.get("Environment")
-FeatureBranch = os.environ.get("FeatureBranch")
-ServiceName = os.environ.get("ServiceName")
 AWS_EVENT_BUS_NAME = f"{Environment}_{AWS_BUS_NAME}"
 
 # Payload Source
