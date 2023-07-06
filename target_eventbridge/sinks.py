@@ -5,24 +5,32 @@ from __future__ import annotations
 from singer_sdk.sinks import BatchSink
 
 
+from target_eventbridge.helpers.aws.ebHelper import (
+    sendEvent
+)
+
+
 class eventbridgeSink(BatchSink):
     """eventbridge target sink class."""
 
-    max_size = 10000  # Max records to write in one batch
 
     def start_batch(self, context: dict) -> None:
-        """Start a batch.
-
-        Developers may optionally add additional markers to the `context` dict,
-        which is unique to this batch.
-
-        Args:
-            context: Stream partition or context dictionary.
-        """
-        # Sample:
-        # ------
-        # batch_key = context["batch_id"]
-        # context["file_path"] = f"{batch_key}.csv"
+        poc: dict = {
+            "transactions": {
+                "traveler": {
+                    "name": "test-name",
+                    "group": "test-group General Traveler",
+                    "email": 'testEmailTarget@slalom.com'
+                },
+                "line_of_business": "Airplane",
+                "point_of_sale": "USA"
+            }
+        }
+        try:
+            request = sendEvent(poc)
+            print(request, '---------- REQUEST ----------')
+        except:
+            raise Exception('Error')
 
     def process_record(self, record: dict, context: dict) -> None:
         """Process the record.
