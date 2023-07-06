@@ -2,7 +2,7 @@ import boto3
 import datetime
 import json
 
-from helpers import (
+from target_eventbridge.helpers.constantsHelper import (
     AWS_EVENT_BUS_NAME,
     PAYLOAD_SOURCE_OPERTATIONS_EGENCIA,
     PAYLOAD_DETAILTYPE_OPERATIONS_EGENCIA_TRANSACTIONS
