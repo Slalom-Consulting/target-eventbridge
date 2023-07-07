@@ -5,14 +5,10 @@ import json
 import os
 
 from target_eventbridge.helpers.constantsHelper import (
-    AWS_EVENT_BUS_NAME,
     AWS_REGION,
-    PAYLOAD_SOURCE_OPERTATIONS_EGENCIA,
-    PAYLOAD_SOURCE_EMPLOYEE,
-    PAYLOAD_DETAILTYPE_OPERATIONS_EGENCIA_TRANSACTIONS
 )
 
-def sendEvent(tapData):
+def sendEvent(event_bus_name, event_detail_type, event_source, tapData):
 
     if tapData == {}:
         raise Exception('No data returned from tap')
@@ -34,11 +30,11 @@ def sendEvent(tapData):
     entries= [
         {
             'Time': f'{time}',
-            'Source': f'{PAYLOAD_SOURCE_OPERTATIONS_EGENCIA}',
+            'Source': f'{event_source}',
             'Resources': [],
-            'DetailType': f'{PAYLOAD_DETAILTYPE_OPERATIONS_EGENCIA_TRANSACTIONS}',
+            'DetailType': f'{event_detail_type}',
             'Detail': f'{data}',
-            'EventBusName': f'{AWS_EVENT_BUS_NAME}',
+            'EventBusName': f'{event_bus_name}',
         }
     ]
 

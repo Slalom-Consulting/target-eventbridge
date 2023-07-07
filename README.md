@@ -4,58 +4,32 @@
 
 Build with the [Meltano Target SDK](https://sdk.meltano.com).
 
-<!--
-
-Developer TODO: Update the below as needed to correctly describe the install procedure. For instance, if you do not have a PyPi repo, or if you want users to directly install from your git repo, you can modify this step as appropriate.
-
-## Installation
-
-Install from PyPi:
-
-```bash
-pipx install target-eventbridge
-```
-
-Install from GitHub:
-
-```bash
-pipx install git+https://github.com/ORG_NAME/target-eventbridge.git@main
-```
-
--->
-
-## Configuration
-
-### Accepted Config Options
-
-<!--
-Developer TODO: Provide a list of config options accepted by the target.
-
-This section can be created by copy-pasting the CLI output from:
-
-```
-target-eventbridge --about --format=markdown
-```
--->
-
-A full list of supported settings and capabilities for this
-target is available by running:
-
-```bash
-target-eventbridge --about
-```
-
 ### Configure using environment variables
 
 This Singer target will automatically import any environment variables within the working directory's
 `.env` if the `--config=ENV` is provided, such that config values will be considered if a matching
 environment variable is set either in the terminal context or in the `.env` file.
 
+## Configuration Specific to Target-Eventbridge
+
+`event_bus_name` 
+`event_detail_type` 
+`event_source` 
+
+These settings will need to be configured in order to run the target. 
+
+Meltano will find these values from your `.env` first by looking for matching values taged with the prefix `TARGET_EVENTBRIDGE_`. ex. -> `TARGET_EVENTBRIDGE_EVENT_BUS_NAME`
+
+the values from your .env can be overwritten by using the command `meltano config target-eventbridge set "variable_name" "variable_value"`
+
+
 ### Source Authentication and Authorization
 
-<!--
-Developer TODO: If your target requires special access on the destination system, or any special authentication requirements, provide those here.
--->
+AWS credentials are required for running target-eventbridge. To set your local `aws/credentials` run the following commands. 
+
+`aws-azure-login --profile "your_profile_name"`
+
+`aws configure`
 
 ## Usage
 

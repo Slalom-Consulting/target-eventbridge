@@ -13,5 +13,11 @@ plugins:
     - about
     - stream-maps
     - record-flattening
-    config:
-      start_date: '2010-01-01T00:00:00Z'
+    settings:
+      - name: "event_bus_name"
+        kind: string
+      - name: "event_detail_type"
+        kind: string
+      - name: "event_source"
+        kind: string
+
