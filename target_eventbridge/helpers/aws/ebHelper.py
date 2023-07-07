@@ -14,7 +14,10 @@ from target_eventbridge.helpers.constantsHelper import (
 
 def sendEvent(tapData):
 
+    if tapData == {}:
+        raise Exception('No data returned from tap')
 
+    
     config = Config(
         region_name = f'{AWS_REGION}',
         signature_version = 'v4',

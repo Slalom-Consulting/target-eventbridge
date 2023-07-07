@@ -14,6 +14,7 @@ class Targeteventbridge(Target):
     """Sample target for eventbridge."""
 
     name = "target-eventbridge"
+    # TODO will need to add config values if needed when hooking up Tap-Egencia
 
     # config_jsonschema = th.PropertiesList(
     #     th.Property(
