@@ -2,11 +2,9 @@
 version: 1
 send_anonymous_usage_stats: true
 project_id: "target-eventbridge"
-default_environment: test
 environments:
-- name: test
+- name: dev
 plugins:
-  extractors: []
   loaders:
   - name: "target-eventbridge"
     namespace: "target_eventbridge"
@@ -15,5 +13,11 @@ plugins:
     - about
     - stream-maps
     - record-flattening
-    config:
-      start_date: '2010-01-01T00:00:00Z'
+    settings:
+      - name: "event_bus_name"
+        kind: string
+      - name: "event_detail_type"
+        kind: string
+      - name: "event_source"
+        kind: string
+

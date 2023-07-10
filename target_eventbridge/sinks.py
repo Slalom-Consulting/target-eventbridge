@@ -2,50 +2,22 @@
 
 from __future__ import annotations
 
-from singer_sdk.sinks import BatchSink
+from singer_sdk.sinks import BatchSink, RecordSink
 
+from target_eventbridge.helpers.aws.ebHelper import (
+    sendEvent
+)
 
-class eventbridgeSink(BatchSink):
-    """eventbridge target sink class."""
+from target_eventbridge.helpers.schemas.sampleRecord import (
+    sample_record
+)
 
-    max_size = 10000  # Max records to write in one batch
+class eventbridgeSink(RecordSink):
 
-    def start_batch(self, context: dict) -> None:
-        """Start a batch.
+    def process_record(self, record: dict, context: dict):
+        
+        event_bus_name = self.config["event_bus_name"]
+        event_detail_type = self.config["event_detail_type"]
+        event_source = self.config["event_source"]
 
-        Developers may optionally add additional markers to the `context` dict,
-        which is unique to this batch.
-
-        Args:
-            context: Stream partition or context dictionary.
-        """
-        # Sample:
-        # ------
-        # batch_key = context["batch_id"]
-        # context["file_path"] = f"{batch_key}.csv"
-
-    def process_record(self, record: dict, context: dict) -> None:
-        """Process the record.
-
-        Developers may optionally read or write additional markers within the
-        passed `context` dict from the current batch.
-
-        Args:
-            record: Individual record in the stream.
-            context: Stream partition or context dictionary.
-        """
-        # Sample:
-        # ------
-        # with open(context["file_path"], "a") as csvfile:
-        #     csvfile.write(record)
-
-    def process_batch(self, context: dict) -> None:
-        """Write out any prepped records and return once fully written.
-
-        Args:
-            context: Stream partition or context dictionary.
-        """
-        # Sample:
-        # ------
-        # client.upload(context["file_path"])  # Upload file
-        # Path(context["file_path"]).unlink()  # Delete local copy
+        request = sendEvent(event_bus_name, event_detail_type, event_source, sample_record)
