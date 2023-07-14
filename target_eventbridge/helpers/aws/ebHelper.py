@@ -1,16 +1,14 @@
 import boto3
 from botocore.config import Config
-import datetime
 import json
-import os
 
 from target_eventbridge.helpers.constantsHelper import (
     AWS_REGION,
 )
 
-def sendEvent(event_bus_name, event_detail_type, event_source, tapData):
+def sendEvent(event_bus_name, event_detail_type, event_source, tapRecords):
 
-    if tapData == {}:
+    if tapRecords == []:
         raise Exception('No data returned from tap')
 
     
@@ -22,21 +20,29 @@ def sendEvent(event_bus_name, event_detail_type, event_source, tapData):
             'mode': 'standard'
         }
     )
+
     client = boto3.client('events', config=config)
 
+    events = []
 
-    data = json.dumps(tapData)
-    time = datetime.datetime.now()
-    entries= [
-        {
-            'Time': f'{time}',
-            'Source': f'{event_source}',
-            'Resources': [],
-            'DetailType': f'{event_detail_type}',
-            'Detail': f'{data}',
-            'EventBusName': f'{event_bus_name}',
-        }
-    ]
+    for single_record in tapRecords:
+        json_record = json.dumps(single_record)
 
-    response = client.put_events(Entries=entries)
-    return response
+        single_event = {
+                'Source': f'{event_source}',
+                'DetailType': f'{event_detail_type}',
+                'Detail': json_record,
+                'EventBusName': f'{event_bus_name}',
+            }
+        
+        events.append(single_event)
+    
+    batch_size = 10
+    total_events = len(events)
+
+    for start_index in range(0, total_events, batch_size):
+        end_index = start_index + batch_size
+        batch = events[start_index:end_index]
+
+        client.put_events(Entries=batch)
+

@@ -2,22 +2,40 @@
 
 from __future__ import annotations
 
-from singer_sdk.sinks import BatchSink, RecordSink
+from singer_sdk.sinks import BatchSink
 
 from target_eventbridge.helpers.aws.ebHelper import (
     sendEvent
 )
 
-from target_eventbridge.helpers.schemas.sampleRecord import (
-    sample_record
-)
+class eventbridgeSink(BatchSink):
+    def write_to_file(self, file_path, data):
+        try:
+            with open(file_path, "w") as file:
+                file.write(data)
+            print("Data written to file successfully.")
+        except IOError:
+            print(f"Error writing to file: {file_path}")
 
-class eventbridgeSink(RecordSink):
 
-    def process_record(self, record: dict, context: dict):
-        
+    def process_batch(self, context: dict) -> None:
+        # Batch process the records received from the Tap
+
         event_bus_name = self.config["event_bus_name"]
         event_detail_type = self.config["event_detail_type"]
         event_source = self.config["event_source"]
 
-        request = sendEvent(event_bus_name, event_detail_type, event_source, sample_record)
+        # # NOTE it is possible to transform data in this step prior to uploading to eventbridge. 
+        # for single_record in context["records"]:
+        #     # traveler = single_record["traveler"]
+        #     # transformed_record = {
+        #     #     "traveler": f'{traveler}'
+        #     # }
+        #     record_list.append(transformed_record) or self.records.appends(transformed_record)
+
+        result = sendEvent(event_bus_name, event_detail_type, event_source, context["records"])
+        result_output = str(result)
+        self.write_to_file('requestResponse.json', result_output)
+
+        
+        

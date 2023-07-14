@@ -3,37 +3,34 @@
 from __future__ import annotations
 
 from singer_sdk.target_base import Target
+
 from singer_sdk import typing as th
 
 from target_eventbridge.sinks import (
     eventbridgeSink,
 )
 
-
 class Targeteventbridge(Target):
-    """Sample target for eventbridge."""
-
+    
     name = "target-eventbridge"
-    # TODO will need to add config values if needed when hooking up Tap-Egencia
 
-    # config_jsonschema = th.PropertiesList(
-    #     th.Property(
-    #         "filepath",
-    #         th.StringType,
-    #         description="The path to the target output file"
-    #     ),
-    #     th.Property(
-    #         "file_naming_scheme",
-    #         th.StringType,
-    #         description="The scheme with which output files will be named"
-    #     ),
-    #     th.Property(
-    #         "auth_token",
-    #         th.StringType,
-    #         secret=True,  # Flag config as protected.
-    #         description="The path to the target output file"
-    #     ),
-    # ).to_dict()
+    config_jsonschema = th.PropertiesList(
+        th.Property(
+            "event_bus_name",
+            th.StringType,
+            description="The event_bus name to send the event to."
+        ),
+        th.Property(
+            "event_detail_type",
+            th.StringType,
+            description="The detail type to use for the event. This determines which fields are included in the event."
+        ),
+        th.Property(
+            "event_source",
+            th.StringType,
+            description="The event source to use for the event."
+        ),
+    ).to_dict()
 
     default_sink_class = eventbridgeSink
 
