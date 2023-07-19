@@ -5,25 +5,6 @@ project_id: "target-eventbridge"
 environments:
 - name: dev
 plugins:
-  extractors:
-    - name: tap-egencia
-      namespace: tap_egencia
-      pip_url: git+https://github.com/Slalom-Consulting/tap-egencia.git
-      executable: tap-egencia
-      catalog: catalog.json
-      capabilities:
-        - catalog
-      settings:
-      - name: client_id
-        kind: password
-      - name: client_secret
-        kind: password
-      - name: end_date
-        kind: string
-      - name: start_date
-        kind: string
-      - name: egencia_base_url
-        kind: string
   loaders:
   - name: "target-eventbridge"
     namespace: "target_eventbridge"
