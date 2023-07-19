@@ -29,10 +29,10 @@ def sendEvent(event_bus_name, event_detail_type, event_source, tapRecords):
         json_record = json.dumps(single_record)
 
         single_event = {
-                'Source': f'{event_source}',
-                'DetailType': f'{event_detail_type}',
-                'Detail': json_record,
-                'EventBusName': f'{event_bus_name}',
+            'Source': f'{event_source}',
+            'DetailType': f'{event_detail_type}',
+            'Detail': json_record,
+            'EventBusName': f'{event_bus_name}',
             }
         
         events.append(single_event)
