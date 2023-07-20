@@ -31,6 +31,10 @@ AWS credentials are required for running target-eventbridge. To set your local `
 
 `aws configure`
 
+# Note On Configuration
+
+If multiple AWS_Profiles exist in your `.aws/credentials` file adding `AWS_PROFILE` to your `.env` file and pointing the value to the desired profile will allow you to target which profile will be used during runtime.
+
 ## Usage
 
 You can easily run `target-eventbridge` by itself or in a pipeline using [Meltano](https://meltano.com/).

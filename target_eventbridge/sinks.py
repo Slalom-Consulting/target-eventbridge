@@ -2,22 +2,23 @@
 
 from __future__ import annotations
 
-from singer_sdk.sinks import BatchSink, RecordSink
+from singer_sdk.sinks import BatchSink
 
 from target_eventbridge.helpers.aws.ebHelper import (
     sendEvent
 )
 
-from target_eventbridge.helpers.schemas.sampleRecord import (
-    sample_record
-)
+class eventbridgeSink(BatchSink):
 
-class eventbridgeSink(RecordSink):
+    def process_batch(self, context: dict) -> None:
+        # Batch process the records received from the Tap
 
-    def process_record(self, record: dict, context: dict):
-        
         event_bus_name = self.config["event_bus_name"]
         event_detail_type = self.config["event_detail_type"]
         event_source = self.config["event_source"]
 
-        request = sendEvent(event_bus_name, event_detail_type, event_source, sample_record)
+        sendEvent(event_bus_name, event_detail_type, event_source, context["records"])
+
+
+        
+        

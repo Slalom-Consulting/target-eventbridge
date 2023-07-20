@@ -9,10 +9,6 @@ plugins:
   - name: "target-eventbridge"
     namespace: "target_eventbridge"
     pip_url: -e .
-    capabilities:
-    - about
-    - stream-maps
-    - record-flattening
     settings:
       - name: "event_bus_name"
         kind: string
@@ -20,4 +16,3 @@ plugins:
         kind: string
       - name: "event_source"
         kind: string
-
